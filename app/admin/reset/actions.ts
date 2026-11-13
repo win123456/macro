@@ -11,5 +11,5 @@ export async function resetPassword(_:string, form:FormData):Promise<string> {
  if(!auth || !token) return "ลิงก์ไม่ถูกต้องหรือหมดอายุ";
  if(password.length < 12 || password.length > 128 || password !== confirm) return "รหัสผ่านต้องมีอย่างน้อย 12 ตัวอักษรและตรงกันทั้งสองช่อง";
  const {error}=await auth.resetPassword({newPassword:password,token});
- return error ? "ตั้งรหัสผ่านไม่สำเร็จ โปรดขอลิงก์ใหม่" : "ตั้งรหัสผ่านเรียบร้อยแล้ว กรุณาแจ้งผู้ดูแลระบบเพื่อเปิดสิทธิ์เข้าสู่ระบบ";
+ return error ? "ตั้งรหัสผ่านไม่สำเร็จ โปรดขอลิงก์ใหม่" : "ตั้งรหัสผ่านเรียบร้อยแล้ว สามารถกลับไปเข้าสู่ระบบได้";
 }
