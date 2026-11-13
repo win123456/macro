@@ -22,10 +22,9 @@ export async function login(_: string, form: FormData): Promise<string> {
  const auth = getAuth(); const username = process.env.ADMIN_USERNAME; const email = process.env.ADMIN_AUTH_EMAIL;
  if (!auth || !process.env.ADMIN_USER_ID || !username || !email) return "ยังไม่ได้ตั้งค่าบัญชีผู้ดูแล";
  if (String(form.get("username") || "").trim().toLowerCase() !== username.trim().toLowerCase()) return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
- const {error} = await auth.signIn.email({ email, password:String(form.get("password") || "") });
- if (error) return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
- const {data:session}=await auth.getSession();
- if (!session?.user || session.user.id !== process.env.ADMIN_USER_ID) { await auth.signOut(); return "บัญชีนี้ไม่มีสิทธิ์ดูแลเว็บไซต์"; }
+ const {data, error} = await auth.signIn.email({ email, password:String(form.get("password") || "") });
+ if (error || !data?.user) return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+ if (data.user.id !== process.env.ADMIN_USER_ID) { await auth.signOut(); return "บัญชีนี้ไม่มีสิทธิ์ดูแลเว็บไซต์"; }
  redirect("/admin");
 }
 export async function logout() { const auth = getAuth(); if (auth) await auth.signOut(); redirect("/admin"); }
