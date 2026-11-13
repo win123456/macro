@@ -24,7 +24,7 @@ npm run dev
 ระบบจัดการอยู่ที่ `/admin` ใช้ Neon Postgres และ Neon Auth รูปภาพระบุพาธใน public/ หรือ HTTPS URL ยังไม่มีการอัปโหลดภาพจากหน้าแอดมิน
 
 1. สร้างบัญชีลูกค้าผ่าน Neon Auth Users โดยให้ลูกค้ากำหนดข้อมูลเข้าสู่ระบบเอง และคัดลอก user ID ของบัญชี
-2. ตั้ง `ADMIN_USER_ID` ใน Vercel ให้ตรงกับ user ID หลังบ้านปิดการแก้ไขจนกว่าจะตั้งค่านี้
+2. ตั้ง `ADMIN_USER_ID` ให้ตรงกับ user ID ของผู้ดูแล ตั้ง `ADMIN_USERNAME` เป็นชื่อผู้ใช้ที่ลูกค้าต้องการ และตั้ง `ADMIN_AUTH_EMAIL` เป็นอีเมลของบัญชี Neon Auth ทั้งสามค่าเป็น Environment Variables ฝั่งเซิร์ฟเวอร์ใน Vercel หลังบ้านปิดการแก้ไขจนกว่าจะตั้งค่าครบ ลูกค้าเข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่านของบัญชี Neon Auth
 3. Neon integration จัดการ `DATABASE_URL` และ `NEON_AUTH_BASE_URL` และต้องตั้ง `NEON_AUTH_COOKIE_SECRET` อย่างน้อย 32 ตัวอักษร ห้าม commit ค่าเหล่านี้ลง Git
 4. Redeploy และทดสอบเข้าสู่ระบบ บันทึก และแสดงผลด้วยบัญชีผู้ดูแลจริงก่อนส่งมอบ
 

@@ -19,9 +19,11 @@ function validShape(value: unknown, sample: unknown, key = ""): boolean {
  return false;
 }
 export async function login(_: string, form: FormData): Promise<string> {
- const auth = getAuth(); if (!auth || !process.env.ADMIN_USER_ID) return "ยังไม่ได้ตั้งค่าบัญชีผู้ดูแล";
- const {error} = await auth.signIn.email({ email:String(form.get("email") || "").trim(), password:String(form.get("password") || "") });
- if (error) return "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+ const auth = getAuth(); const username = process.env.ADMIN_USERNAME; const email = process.env.ADMIN_AUTH_EMAIL;
+ if (!auth || !process.env.ADMIN_USER_ID || !username || !email) return "ยังไม่ได้ตั้งค่าบัญชีผู้ดูแล";
+ if (String(form.get("username") || "").trim().toLowerCase() !== username.trim().toLowerCase()) return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+ const {error} = await auth.signIn.email({ email, password:String(form.get("password") || "") });
+ if (error) return "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
  const {data:session}=await auth.getSession();
  if (!session?.user || session.user.id !== process.env.ADMIN_USER_ID) { await auth.signOut(); return "บัญชีนี้ไม่มีสิทธิ์ดูแลเว็บไซต์"; }
  redirect("/admin");
